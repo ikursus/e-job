@@ -341,34 +341,24 @@
         </div>
         
         <div class="sidebar-menu">
-            <a href="{{ url('/pengguna/dashboard') }}" class="nav-link {{ request()->is('pengguna/dashboard') ? 'active' : '' }}">
+            <a href="{{ route('dashboard.pengguna') }}" class="nav-link {{ request()->is('pengguna/dashboard') ? 'active' : '' }}">
                 <i class="bi bi-speedometer2"></i>
                 <span>Dashboard</span>
             </a>
             
-            <a href="{{ url('/pengguna/profile') }}" class="nav-link {{ request()->is('pengguna/profile*') ? 'active' : '' }}">
+            <a href="{{ url('/profile') }}" class="nav-link {{ request()->is('pengguna/profile*') ? 'active' : '' }}">
                 <i class="bi bi-person"></i>
                 <span>Profil Saya</span>
             </a>
             
-            <a href="{{ url('/pengguna/applications') }}" class="nav-link {{ request()->is('pengguna/applications*') ? 'active' : '' }}">
+            <a href="{{ route('permohonan.index') }}" class="nav-link {{ request()->is('pengguna/applications*') ? 'active' : '' }}">
                 <i class="bi bi-file-earmark-text"></i>
                 <span>Permohonan Saya</span>
             </a>
             
-            <a href="{{ url('/pengguna/jobs') }}" class="nav-link {{ request()->is('pengguna/jobs*') ? 'active' : '' }}">
+            <a href="{{ route('jobs.index') }}" class="nav-link {{ request()->is('pengguna/jobs*') ? 'active' : '' }}">
                 <i class="bi bi-briefcase"></i>
                 <span>Cari Kerja</span>
-            </a>
-            
-            <a href="{{ url('/pengguna/notifications') }}" class="nav-link {{ request()->is('pengguna/notifications*') ? 'active' : '' }}">
-                <i class="bi bi-bell"></i>
-                <span>Notifikasi</span>
-            </a>
-            
-            <a href="{{ url('/pengguna/settings') }}" class="nav-link {{ request()->is('pengguna/settings*') ? 'active' : '' }}">
-                <i class="bi bi-gear"></i>
-                <span>Tetapan</span>
             </a>
         </div>
     </nav>

@@ -50,4 +50,11 @@ class User extends Authenticatable
 
     public const STATUS_ACTIVE = 'active';
     public const STATUS_INACTIVE = 'inactive';
+
+
+    public function senaraiPermohonan()
+    {
+        // return $this->hasMany(Permohonan::class);
+        return $this->hasMany(Permohonan::class, 'user_id', 'id');
+    }
 }

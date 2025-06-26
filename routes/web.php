@@ -2,13 +2,15 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\IklanController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\PermohonanController;
+use App\Http\Controllers\Admin\JawatanController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\JawatanController;
 
 // Halaman utama
 // Format route: Route::method('url', function);
@@ -57,8 +59,12 @@ Route::middleware('auth')->group( function() {
 
     Route::get('dashboard', function () {
         return view('pengguna.template-dashboard');
-    });
-    
+    })->name('dashboard.pengguna');
+
+    Route::get('jobs', [IklanController::class, 'index'])->name('jobs.index');
+    Route::get('jobs/apply/{id?}', [PermohonanController::class, 'store'])->name('jobs.apply');
+
+    Route::get('permohonan', [PermohonanController::class, 'index'])->name('permohonan.index');
 });
 
 Route::view('contoh', 'template-contoh');
