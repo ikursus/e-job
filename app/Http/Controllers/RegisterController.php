@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class RegisterController extends Controller
@@ -12,8 +13,20 @@ class RegisterController extends Controller
     }
 
     public function store(Request $request) {
-        // Proses pendaftaran pengguna
-        // Validasi dan simpan data pengguna
-        return redirect('/login')->with('success', 'Pendaftaran berhasil. Silakan login.');
+        
+        $data = $request->validate([
+            'name' => ['required', 'min:3'],
+            'email' => ['required', 'email:filter', 'unique:users,email'],
+            'phone' => ['nullable'],
+            'password' => ['required', 'min:3', 'confirmed']
+        ]);
+
+        // Attachkan maklumat status akaun
+        $data['status'] = User::STATUS_ACTIVE;
+
+        // DB::table()
+        User::create($data);
+        
+        return redirect('/login')->with('message-success', 'Pendaftaran berhasil. Silakan login.');
     }
 }

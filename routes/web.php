@@ -17,7 +17,7 @@ Route::get('/', HomeController::class);
 // Route untuk login
 Route::get('/login', [LoginController::class, 'borangLogin'])->name('login');
 Route::post('/login', [LoginController::class, 'prosesLogin'])->name('login.authenticate');
-Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 // Route untuk register
 Route::get('/register', [RegisterController::class, 'borangDaftar'])->name('register');
@@ -35,6 +35,7 @@ Route::post('/contact', [ContactController::class, 'sendContact'])->name('contac
 Route::group([
     'prefix' => 'admin', // Prefix URL untuk admin
     'as' => 'admin.', // Prefix untuk nama route
+    'middleware' => ['auth']
 ], function () {
    
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
@@ -49,6 +50,15 @@ Route::group([
 
     // Route untuk pengurusan jawatan
     Route::resource('jawatan', JawatanController::class);
+});
+
+// Route untuk pengguna
+Route::middleware('auth')->group( function() {
+
+    Route::get('dashboard', function () {
+        return view('pengguna.template-dashboard');
+    });
+    
 });
 
 Route::view('contoh', 'template-contoh');

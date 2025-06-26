@@ -13,7 +13,7 @@ Sertai ribuan pencari kerja dan majikan di platform kami
 @endsection
 
 @section('content')
-<form method="POST" action="{{ route('register') }}">
+<form method="POST" action="{{ route('register.store') }}">
     @csrf
     
     <div class="mb-3">
@@ -22,11 +22,24 @@ Sertai ribuan pencari kerja dan majikan di platform kami
         </label>
         <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" 
                value="{{ old('name') }}" required autofocus placeholder="Masukkan nama penuh anda">
-        @error('name')
-            <div class="invalid-feedback">
-                <i class="bi bi-exclamation-circle me-1"></i>{{ $message }}
-            </div>
-        @enderror
+            @error('name')
+                <div class="invalid-feedback">
+                    <i class="bi bi-exclamation-circle me-1"></i>{{ $message }}
+                </div>
+            @enderror
+    </div>
+
+    <div class="mb-3">
+        <label for="phone" class="form-label">
+            <i class="bi bi-telephone me-2"></i>Nombor Telefon
+        </label>
+        <input type="tel" class="form-control @error('phone') is-invalid @enderror" id="phone" name="phone"
+            value="{{ old('phone') }}" required placeholder="Masukkan nombor telefon anda">
+            @error('phone')
+                <div class="invalid-feedback">
+                    <i class="bi bi-exclamation-circle me-1"></i>{{ $message }}
+                </div>
+            @enderror
     </div>
     
     <div class="mb-3">

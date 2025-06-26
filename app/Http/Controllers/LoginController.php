@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
 
 class LoginController extends Controller
 {
@@ -11,23 +13,6 @@ class LoginController extends Controller
         return view('auth.login');
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public function prosesLogin(Request $request) {
         
         // $email = $request->input('email');
@@ -35,29 +20,33 @@ class LoginController extends Controller
         // $data = $request->all();
         // $data = $request->only('email');
         // $data = $request->except('_token');
-        $data = $request->validate([
+        $credentials = $request->validate([
             'email' => 'required|email:filter', // kaedah penulisan validation string
             'password' => ['required', 'min:3'],
         ]);
 
-        return $data;
-        
-        //return redirect('/dashboard');
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+ 
+            return redirect()->intended('dashboard');
+        }
+ 
+        return back()->withErrors([
+            'email' => 'Maklumat login tidak sah.',
+        ])->onlyInput('email');
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    /**
+     * Log the user out of the application.
+     */
+    public function logout(Request $request): RedirectResponse
+    {
+        Auth::logout();
+    
+        $request->session()->invalidate();
+    
+        $request->session()->regenerateToken();
+    
+        return redirect('/login')->with('message-success', 'Anda berjaya log keluar.');
+    }
 }
