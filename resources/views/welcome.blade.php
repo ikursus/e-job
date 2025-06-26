@@ -1,774 +1,662 @@
-<!DOCTYPE html>
-<html lang="ms">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-JobDemo - Platform Tawaran Kerja Terbaik</title>
+@extends('layouts.induk')
+
+@section('title', 'E-JobDemo - Platform Tawaran Kerja Terbaik')
+
+@push('styles')
+<style>
+    .hero-section {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        color: white;
+        position: relative;
+        overflow: hidden;
+        padding-top: 80px;
+    }
     
-    <!-- Bootstrap 5.3 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    .hero-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.3);
+        z-index: 1;
+    }
     
-    <style>
-        :root {
-            --primary-color: #007bff;
-            --secondary-color: #6c757d;
-            --success-color: #28a745;
-            --info-color: #17a2b8;
-            --warning-color: #ffc107;
-            --danger-color: #dc3545;
-        }
-        
-        .hero-section {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            color: white;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .hero-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.3);
-            z-index: 1;
-        }
-        
-        .hero-content {
-            position: relative;
-            z-index: 2;
-        }
-        
-        .search-box {
-            background: white;
-            border-radius: 50px;
-            padding: 10px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-        
-        .feature-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: none;
-            border-radius: 15px;
-            overflow: hidden;
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-        }
-        
-        .stats-section {
-            background: linear-gradient(45deg, #f8f9fa, #e9ecef);
-        }
-        
-        .job-card {
-            border: none;
-            border-radius: 15px;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-        }
-        
-        .job-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
-        }
-        
-        .category-item {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            border-radius: 15px;
-            color: white;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            display: block;
-            padding: 2rem;
-        }
-        
-        .category-item:hover {
-            transform: scale(1.05);
-            color: white;
-            text-decoration: none;
-        }
-        
-        .navbar-brand {
-            font-weight: bold;
-            font-size: 1.5rem;
-        }
-        
-        .btn-custom {
-            border-radius: 25px;
-            padding: 12px 30px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-        }
-        
-        .btn-custom:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-        }
-    </style>
-</head>
-<body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background: rgba(0,0,0,0.9); backdrop-filter: blur(10px);">
-        <div class="container">
-            <a class="navbar-brand" href="/">
-                <i class="bi bi-briefcase-fill me-2"></i>E-JobDemo
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#home">Utama</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#jobs">Kerja</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#categories">Kategori</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#about">Tentang</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-outline-light btn-custom ms-2" href="{{ route('login') }}">Masuk</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-light btn-custom ms-2" href="{{ route('register') }}">Daftar</a>
-                    </li>
-                </ul>
+    .hero-content {
+        position: relative;
+        z-index: 2;
+    }
+    
+    .search-box {
+        background: white;
+        border-radius: 20px;
+        padding: 15px;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        backdrop-filter: blur(10px);
+    }
+    
+    .hero-image {
+        position: relative;
+        z-index: 2;
+    }
+    
+    .hero-image img {
+        border-radius: 20px;
+        box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+    }
+    
+    .stats-section {
+        background: linear-gradient(45deg, #f8f9fa, #e9ecef);
+        position: relative;
+    }
+    
+    .stat-card {
+        background: white;
+        border-radius: 20px;
+        padding: 2rem;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        border: none;
+        height: 100%;
+    }
+    
+    .stat-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    }
+    
+    .stat-icon {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1rem;
+        font-size: 2rem;
+        color: white;
+    }
+    
+    .stat-number {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #1a202c;
+        margin-bottom: 0.5rem;
+    }
+    
+    .job-card {
+        background: white;
+        border-radius: 20px;
+        padding: 1.5rem;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        transition: all 0.3s ease;
+        border: none;
+        height: 100%;
+    }
+    
+    .job-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+    }
+    
+    .company-logo {
+        width: 60px;
+        height: 60px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        color: white;
+        font-size: 1.5rem;
+    }
+    
+    .job-badge {
+        padding: 0.5rem 1rem;
+        border-radius: 25px;
+        font-size: 0.85rem;
+        font-weight: 600;
+    }
+    
+    .category-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 20px;
+        padding: 2rem;
+        text-align: center;
+        color: white;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: block;
+        height: 100%;
+        border: none;
+    }
+    
+    .category-card:hover {
+        transform: scale(1.05) translateY(-5px);
+        color: white;
+        text-decoration: none;
+        box-shadow: 0 20px 40px rgba(102, 126, 234, 0.3);
+    }
+    
+    .category-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        opacity: 0.9;
+    }
+    
+    .process-step {
+        text-align: center;
+        position: relative;
+    }
+    
+    .process-icon {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+        font-size: 2.5rem;
+        color: white;
+        position: relative;
+    }
+    
+    .process-number {
+        position: absolute;
+        top: -10px;
+        right: -10px;
+        width: 35px;
+        height: 35px;
+        background: #fbbf24;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        color: white;
+        font-size: 1rem;
+    }
+    
+    .testimonial-card {
+        background: white;
+        border-radius: 20px;
+        padding: 2rem;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        text-align: center;
+        height: 100%;
+        border: none;
+    }
+    
+    .testimonial-avatar {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        margin: 0 auto 1rem;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 2rem;
+    }
+    
+    .cta-section {
+        background: linear-gradient(135deg, #1e3a8a 0%, #3730a3 100%);
+        color: white;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .cta-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="%23ffffff" opacity="0.1"/></svg>') repeat;
+        z-index: 1;
+    }
+    
+    .cta-content {
+        position: relative;
+        z-index: 2;
+    }
+</style>
+@endpush
+
+@section('content')
+<!-- Hero Section -->
+<section id="home" class="hero-section">
+    <div class="container hero-content">
+        <div class="row align-items-center">
+            <div class="col-lg-6 fade-in">
+                <h1 class="display-4 fw-bold mb-4">Cari Kerja Impian Anda</h1>
+                <p class="lead mb-4">Platform tawaran kerja terbaik di Malaysia. Temui ribuan peluang kerja dari syarikat-syarikat terkemuka dan bina kerjaya cemerlang anda.</p>
+                
+                <!-- Search Box -->
+                <div class="search-box mb-4">
+                    <form class="row g-3" id="jobSearchForm">
+                        <div class="col-md-5">
+                            <input type="text" class="form-control border-0" placeholder="Cari jawatan, syarikat..." name="search">
+                        </div>
+                        <div class="col-md-4">
+                            <select class="form-select border-0" name="location">
+                                <option value="">Pilih Lokasi</option>
+                                <option value="kuala-lumpur">Kuala Lumpur</option>
+                                <option value="selangor">Selangor</option>
+                                <option value="penang">Penang</option>
+                                <option value="johor">Johor</option>
+                                <option value="perak">Perak</option>
+                                <option value="sabah">Sabah</option>
+                                <option value="sarawak">Sarawak</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <button class="btn btn-primary w-100 btn-custom" type="submit">
+                                <i class="bi bi-search me-2"></i>Cari Kerja
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="d-flex flex-wrap gap-3">
+                    <a href="#jobs" class="btn btn-light btn-custom">
+                        <i class="bi bi-eye me-2"></i>Lihat Kerja Terkini
+                    </a>
+                    <a href="{{ route('register') }}" class="btn btn-outline-light btn-custom">
+                        <i class="bi bi-person-plus me-2"></i>Daftar Sekarang
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6 text-center hero-image fade-in">
+                <img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Job Portal" class="img-fluid">
             </div>
         </div>
-    </nav>
+    </div>
+</section>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero-section">
-        <div class="container hero-content">
-            <div class="row align-items-center">
-                <div class="col-lg-6">
-                    <h1 class="display-4 fw-bold mb-4">Cari Kerja Impian Anda</h1>
-                    <p class="lead mb-4">Platform tawaran kerja terbaik di Malaysia. Temui ribuan peluang kerja dari syarikat-syarikat terkemuka.</p>
-                    
-                    <!-- Search Box -->
-                    <div class="search-box mb-4">
-                        <form class="row g-2">
-                            <div class="col-md-5">
-                                <input type="text" class="form-control border-0" placeholder="Cari jawatan...">
-                            </div>
-                            <div class="col-md-4">
-                                <select class="form-select border-0">
-                                    <option>Pilih Lokasi</option>
-                                    <option>Kuala Lumpur</option>
-                                    <option>Selangor</option>
-                                    <option>Penang</option>
-                                    <option>Johor</option>
-                                </select>
-                            </div>
-                            <div class="col-md-3">
-                                <button class="btn btn-primary w-100 btn-custom" type="submit">
-                                    <i class="bi bi-search me-2"></i>Cari
-                                </button>
-                            </div>
-                        </form>
+<!-- Stats Section -->
+<section class="stats-section section-padding">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-3 fade-in">
+                <div class="stat-card">
+                    <div class="stat-icon bg-primary">
+                        <i class="bi bi-briefcase-fill"></i>
                     </div>
-                    
-                    <div class="d-flex gap-3">
-                        <a href="#jobs" class="btn btn-light btn-custom">
-                            <i class="bi bi-eye me-2"></i>Lihat Kerja
-                        </a>
-                        <a href="{{ route('register') }}" class="btn btn-outline-light btn-custom">
-                            <i class="bi bi-person-plus me-2"></i>Daftar Sekarang
-                        </a>
-                    </div>
+                    <div class="stat-number">5,000+</div>
+                    <p class="text-muted mb-0">Tawaran Kerja Aktif</p>
                 </div>
-                <div class="col-lg-6 text-center">
-                    <img src="https://via.placeholder.com/500x400/667eea/ffffff?text=Job+Portal" alt="Job Portal" class="img-fluid rounded-3 shadow-lg">
+            </div>
+            <div class="col-md-6 col-lg-3 fade-in">
+                <div class="stat-card">
+                    <div class="stat-icon bg-success">
+                        <i class="bi bi-building"></i>
+                    </div>
+                    <div class="stat-number">1,200+</div>
+                    <p class="text-muted mb-0">Syarikat Terdaftar</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3 fade-in">
+                <div class="stat-card">
+                    <div class="stat-icon bg-info">
+                        <i class="bi bi-people-fill"></i>
+                    </div>
+                    <div class="stat-number">50,000+</div>
+                    <p class="text-muted mb-0">Pengguna Aktif</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3 fade-in">
+                <div class="stat-card">
+                    <div class="stat-icon bg-warning">
+                        <i class="bi bi-check-circle-fill"></i>
+                    </div>
+                    <div class="stat-number">98%</div>
+                    <p class="text-muted mb-0">Kadar Kejayaan</p>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Stats Section -->
-    <section class="stats-section py-5">
-        <div class="container">
-            <div class="row text-center">
-                <div class="col-md-3 mb-4">
-                    <div class="card feature-card h-100 p-4">
-                        <i class="bi bi-briefcase-fill text-primary" style="font-size: 3rem;"></i>
-                        <h3 class="mt-3 mb-2">5,000+</h3>
-                        <p class="text-muted">Tawaran Kerja</p>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-4">
-                    <div class="card feature-card h-100 p-4">
-                        <i class="bi bi-building text-success" style="font-size: 3rem;"></i>
-                        <h3 class="mt-3 mb-2">1,200+</h3>
-                        <p class="text-muted">Syarikat</p>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-4">
-                    <div class="card feature-card h-100 p-4">
-                        <i class="bi bi-people-fill text-info" style="font-size: 3rem;"></i>
-                        <h3 class="mt-3 mb-2">50,000+</h3>
-                        <p class="text-muted">Pengguna Aktif</p>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-4">
-                    <div class="card feature-card h-100 p-4">
-                        <i class="bi bi-check-circle-fill text-warning" style="font-size: 3rem;"></i>
-                        <h3 class="mt-3 mb-2">98%</h3>
-                        <p class="text-muted">Kadar Kejayaan</p>
-                    </div>
-                </div>
-            </div>
+<!-- Featured Jobs Section -->
+<section id="jobs" class="section-padding">
+    <div class="container">
+        <div class="text-center mb-5 fade-in">
+            <h2 class="section-title">Kerja Terkini</h2>
+            <p class="section-subtitle">Peluang kerja terbaik dari syarikat-syarikat terkemuka menanti anda</p>
         </div>
-    </section>
-
-    <!-- Featured Jobs Section -->
-    <section id="jobs" class="py-5">
-        <div class="container">
-            <div class="text-center mb-5">
-                <h2 class="display-5 fw-bold">Kerja Terkini</h2>
-                <p class="lead text-muted">Peluang kerja terbaik menanti anda</p>
+        
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-4 fade-in">
+                <div class="job-card">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div class="company-logo bg-primary">
+                            TS
+                        </div>
+                        <span class="job-badge bg-success text-white">Penuh Masa</span>
+                    </div>
+                    <h5 class="fw-bold mb-2">Pembangun Web Senior</h5>
+                    <p class="text-muted mb-2">
+                        <i class="bi bi-building me-2"></i>Tech Solutions Sdn Bhd
+                    </p>
+                    <p class="text-muted mb-3">
+                        <i class="bi bi-geo-alt me-2"></i>Kuala Lumpur
+                    </p>
+                    <p class="mb-3">Mencari pembangun web berpengalaman untuk projek-projek menarik menggunakan teknologi terkini...</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="fw-bold text-primary fs-5">RM 5,000 - RM 8,000</span>
+                        <a href="#" class="btn btn-outline-primary btn-sm">Lihat Detail</a>
+                    </div>
+                </div>
             </div>
             
-            <div class="row">
-                <div class="col-md-6 col-lg-4 mb-4">
-                    <div class="card job-card h-100">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-start mb-3">
-                                <img src="https://via.placeholder.com/60x60/007bff/ffffff?text=C" alt="Company" class="rounded">
-                                <span class="badge bg-success">Penuh Masa</span>
-                            </div>
-                            <h5 class="card-title">Pembangun Web Senior</h5>
-                            <p class="text-muted mb-2">
-                                <i class="bi bi-building me-2"></i>Tech Solutions Sdn Bhd
-                            </p>
-                            <p class="text-muted mb-3">
-                                <i class="bi bi-geo-alt me-2"></i>Kuala Lumpur
-                            </p>
-                            <p class="card-text">Mencari pembangun web berpengalaman untuk projek-projek menarik...</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span class="fw-bold text-primary">RM 5,000 - RM 8,000</span>
-                                <a href="#" class="btn btn-outline-primary btn-sm">Lihat Detail</a>
-                            </div>
+            <div class="col-md-6 col-lg-4 fade-in">
+                <div class="job-card">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div class="company-logo bg-success">
+                            MP
                         </div>
+                        <span class="job-badge bg-info text-white">Separuh Masa</span>
                     </div>
-                </div>
-                
-                <div class="col-md-6 col-lg-4 mb-4">
-                    <div class="card job-card h-100">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-start mb-3">
-                                <img src="https://via.placeholder.com/60x60/28a745/ffffff?text=M" alt="Company" class="rounded">
-                                <span class="badge bg-info">Separuh Masa</span>
-                            </div>
-                            <h5 class="card-title">Pengurus Pemasaran Digital</h5>
-                            <p class="text-muted mb-2">
-                                <i class="bi bi-building me-2"></i>Marketing Pro Agency
-                            </p>
-                            <p class="text-muted mb-3">
-                                <i class="bi bi-geo-alt me-2"></i>Selangor
-                            </p>
-                            <p class="card-text">Peluang menarik untuk menguruskan kempen pemasaran digital...</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span class="fw-bold text-primary">RM 4,000 - RM 6,500</span>
-                                <a href="#" class="btn btn-outline-primary btn-sm">Lihat Detail</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-md-6 col-lg-4 mb-4">
-                    <div class="card job-card h-100">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-start mb-3">
-                                <img src="https://via.placeholder.com/60x60/dc3545/ffffff?text=D" alt="Company" class="rounded">
-                                <span class="badge bg-warning">Kontrak</span>
-                            </div>
-                            <h5 class="card-title">Pereka Grafik</h5>
-                            <p class="text-muted mb-2">
-                                <i class="bi bi-building me-2"></i>Creative Studio
-                            </p>
-                            <p class="text-muted mb-3">
-                                <i class="bi bi-geo-alt me-2"></i>Penang
-                            </p>
-                            <p class="card-text">Sertai pasukan kreatif kami untuk menghasilkan karya yang menakjubkan...</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span class="fw-bold text-primary">RM 3,500 - RM 5,000</span>
-                                <a href="#" class="btn btn-outline-primary btn-sm">Lihat Detail</a>
-                            </div>
-                        </div>
+                    <h5 class="fw-bold mb-2">Pengurus Pemasaran Digital</h5>
+                    <p class="text-muted mb-2">
+                        <i class="bi bi-building me-2"></i>Marketing Pro Agency
+                    </p>
+                    <p class="text-muted mb-3">
+                        <i class="bi bi-geo-alt me-2"></i>Selangor
+                    </p>
+                    <p class="mb-3">Peluang menarik untuk menguruskan kempen pemasaran digital dan strategi media sosial...</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="fw-bold text-primary fs-5">RM 4,000 - RM 6,500</span>
+                        <a href="#" class="btn btn-outline-primary btn-sm">Lihat Detail</a>
                     </div>
                 </div>
             </div>
-                        
-            <div class="text-center mt-5">
-                <a href="#" class="btn btn-primary btn-custom btn-lg">
-                    <i class="bi bi-eye me-2"></i>Lihat Semua Kerja
+            
+            <div class="col-md-6 col-lg-4 fade-in">
+                <div class="job-card">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div class="company-logo bg-danger">
+                            CS
+                        </div>
+                        <span class="job-badge bg-warning text-dark">Kontrak</span>
+                    </div>
+                    <h5 class="fw-bold mb-2">Pereka Grafik</h5>
+                    <p class="text-muted mb-2">
+                        <i class="bi bi-building me-2"></i>Creative Studio
+                    </p>
+                    <p class="text-muted mb-3">
+                        <i class="bi bi-geo-alt me-2"></i>Penang
+                    </p>
+                    <p class="mb-3">Sertai pasukan kreatif kami untuk menghasilkan karya visual yang menakjubkan dan inovatif...</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="fw-bold text-primary fs-5">RM 3,500 - RM 5,000</span>
+                        <a href="#" class="btn btn-outline-primary btn-sm">Lihat Detail</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+                    
+        <div class="text-center mt-5 fade-in">
+            <a href="#" class="btn btn-primary btn-custom btn-lg">
+                <i class="bi bi-eye me-2"></i>Lihat Semua Kerja
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Categories Section -->
+<section id="categories" class="section-padding bg-light">
+    <div class="container">
+        <div class="text-center mb-5 fade-in">
+            <h2 class="section-title">Kategori Kerja Popular</h2>
+            <p class="section-subtitle">Pilih bidang yang sesuai dengan minat dan kemahiran anda</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-3 fade-in">
+                <a href="#" class="category-card">
+                    <div class="category-icon">
+                        <i class="bi bi-code-slash"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2">Teknologi IT</h5>
+                    <p class="mb-0">250+ Kerja Tersedia</p>
+                </a>
+            </div>
+            
+            <div class="col-md-6 col-lg-3 fade-in">
+                <a href="#" class="category-card">
+                    <div class="category-icon">
+                        <i class="bi bi-megaphone"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2">Pemasaran</h5>
+                    <p class="mb-0">180+ Kerja Tersedia</p>
+                </a>
+            </div>
+            
+            <div class="col-md-6 col-lg-3 fade-in">
+                <a href="#" class="category-card">
+                    <div class="category-icon">
+                        <i class="bi bi-calculator"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2">Kewangan</h5>
+                    <p class="mb-0">120+ Kerja Tersedia</p>
+                </a>
+            </div>
+            
+            <div class="col-md-6 col-lg-3 fade-in">
+                <a href="#" class="category-card">
+                    <div class="category-icon">
+                        <i class="bi bi-palette"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2">Kreatif & Seni</h5>
+                    <p class="mb-0">95+ Kerja Tersedia</p>
+                </a>
+            </div>
+            
+            <div class="col-md-6 col-lg-3 fade-in">
+                <a href="#" class="category-card">
+                    <div class="category-icon">
+                        <i class="bi bi-heart-pulse"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2">Kesihatan</h5>
+                    <p class="mb-0">85+ Kerja Tersedia</p>
+                </a>
+            </div>
+            
+            <div class="col-md-6 col-lg-3 fade-in">
+                <a href="#" class="category-card">
+                    <div class="category-icon">
+                        <i class="bi bi-mortarboard"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2">Pendidikan</h5>
+                    <p class="mb-0">75+ Kerja Tersedia</p>
+                </a>
+            </div>
+            
+            <div class="col-md-6 col-lg-3 fade-in">
+                <a href="#" class="category-card">
+                    <div class="category-icon">
+                        <i class="bi bi-truck"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2">Logistik</h5>
+                    <p class="mb-0">65+ Kerja Tersedia</p>
+                </a>
+            </div>
+            
+            <div class="col-md-6 col-lg-3 fade-in">
+                <a href="#" class="category-card">
+                    <div class="category-icon">
+                        <i class="bi bi-shop"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2">Runcit</h5>
+                    <p class="mb-0">55+ Kerja Tersedia</p>
                 </a>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Categories Section -->
-    <section id="categories" class="py-5 bg-light">
-        <div class="container">
-            <div class="text-center mb-5">
-                <h2 class="display-5 fw-bold">Kategori Kerja Popular</h2>
-                <p class="lead text-muted">Pilih bidang yang sesuai dengan minat anda</p>
-            </div>
-            
-            <div class="row">
-                <div class="col-md-6 col-lg-3 mb-4">
-                    <a href="#" class="category-item text-center">
-                        <i class="bi bi-code-slash" style="font-size: 3rem;"></i>
-                        <h5 class="mt-3 mb-2">Teknologi IT</h5>
-                        <p class="mb-0">250+ Kerja</p>
-                    </a>
-                </div>
-                
-                <div class="col-md-6 col-lg-3 mb-4">
-                    <a href="#" class="category-item text-center">
-                        <i class="bi bi-megaphone" style="font-size: 3rem;"></i>
-                        <h5 class="mt-3 mb-2">Pemasaran</h5>
-                        <p class="mb-0">180+ Kerja</p>
-                    </a>
-                </div>
-                
-                <div class="col-md-6 col-lg-3 mb-4">
-                    <a href="#" class="category-item text-center">
-                        <i class="bi bi-calculator" style="font-size: 3rem;"></i>
-                        <h5 class="mt-3 mb-2">Kewangan</h5>
-                        <p class="mb-0">120+ Kerja</p>
-                    </a>
-                </div>
-                
-                <div class="col-md-6 col-lg-3 mb-4">
-                    <a href="#" class="category-item text-center">
-                        <i class="bi bi-palette" style="font-size: 3rem;"></i>
-                        <h5 class="mt-3 mb-2">Kreatif & Seni</h5>
-                        <p class="mb-0">95+ Kerja</p>
-                    </a>
-                </div>
-                
-                <div class="col-md-6 col-lg-3 mb-4">
-                    <a href="#" class="category-item text-center">
-                        <i class="bi bi-heart-pulse" style="font-size: 3rem;"></i>
-                        <h5 class="mt-3 mb-2">Kesihatan</h5>
-                        <p class="mb-0">85+ Kerja</p>
-                    </a>
-                </div>
-                
-                <div class="col-md-6 col-lg-3 mb-4">
-                    <a href="#" class="category-item text-center">
-                        <i class="bi bi-mortarboard" style="font-size: 3rem;"></i>
-                        <h5 class="mt-3 mb-2">Pendidikan</h5>
-                        <p class="mb-0">75+ Kerja</p>
-                    </a>
-                </div>
-                
-                <div class="col-md-6 col-lg-3 mb-4">
-                    <a href="#" class="category-item text-center">
-                        <i class="bi bi-truck" style="font-size: 3rem;"></i>
-                        <h5 class="mt-3 mb-2">Logistik</h5>
-                        <p class="mb-0">65+ Kerja</p>
-                    </a>
-                </div>
-                
-                <div class="col-md-6 col-lg-3 mb-4">
-                    <a href="#" class="category-item text-center">
-                        <i class="bi bi-shop" style="font-size: 3rem;"></i>
-                        <h5 class="mt-3 mb-2">Runcit</h5>
-                        <p class="mb-0">55+ Kerja</p>
-                    </a>
-                </div>
-            </div>
+<!-- How It Works Section -->
+<section id="about" class="section-padding">
+    <div class="container">
+        <div class="text-center mb-5 fade-in">
+            <h2 class="section-title">Bagaimana Ia Berfungsi</h2>
+            <p class="section-subtitle">Tiga langkah mudah untuk mendapat kerja impian anda</p>
         </div>
-    </section>
-
-    <!-- How It Works Section -->
-    <section class="py-5">
-        <div class="container">
-            <div class="text-center mb-5">
-                <h2 class="display-5 fw-bold">Bagaimana Ia Berfungsi</h2>
-                <p class="lead text-muted">Tiga langkah mudah untuk mendapat kerja impian</p>
-            </div>
-            
-            <div class="row">
-                <div class="col-md-4 text-center mb-4">
-                    <div class="position-relative">
-                        <div class="bg-primary rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
-                            <i class="bi bi-person-plus text-white" style="font-size: 2rem;"></i>
-                        </div>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning">1</span>
-                    </div>
-                    <h4 class="mt-4 mb-3">Daftar Akaun</h4>
-                    <p class="text-muted">Buat akaun percuma dan lengkapkan profil anda dengan maklumat yang diperlukan.</p>
-                </div>
-                
-                <div class="col-md-4 text-center mb-4">
-                    <div class="position-relative">
-                        <div class="bg-success rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
-                            <i class="bi bi-search text-white" style="font-size: 2rem;"></i>
-                        </div>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning">2</span>
-                    </div>
-                    <h4 class="mt-4 mb-3">Cari Kerja</h4>
-                    <p class="text-muted">Gunakan carian canggih kami untuk mencari kerja yang sesuai dengan kemahiran anda.</p>
-                </div>
-                
-                <div class="col-md-4 text-center mb-4">
-                    <div class="position-relative">
-                        <div class="bg-info rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
-                            <i class="bi bi-send text-white" style="font-size: 2rem;"></i>
-                        </div>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning">3</span>
-                    </div>
-                    <h4 class="mt-4 mb-3">Mohon Kerja</h4>
-                    <p class="text-muted">Hantar permohonan anda dengan mudah dan tunggu respons dari majikan.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Testimonials Section -->
-    <section class="py-5 bg-light">
-        <div class="container">
-            <div class="text-center mb-5">
-                <h2 class="display-5 fw-bold">Apa Kata Pengguna Kami</h2>
-                <p class="lead text-muted">Testimoni dari pengguna yang berjaya</p>
-            </div>
-            
-            <div class="row">
-                <div class="col-md-4 mb-4">
-                    <div class="card feature-card h-100">
-                        <div class="card-body text-center p-4">
-                            <img src="https://via.placeholder.com/80x80/007bff/ffffff?text=A" alt="User" class="rounded-circle mb-3">
-                            <h5>Ahmad Rahman</h5>
-                            <p class="text-muted small">Pembangun Web</p>
-                            <p class="fst-italic">"Platform yang sangat membantu! Saya berjaya mendapat kerja impian dalam masa 2 minggu sahaja."</p>
-                            <div class="text-warning">
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-md-4 mb-4">
-                    <div class="card feature-card h-100">
-                        <div class="card-body text-center p-4">
-                            <img src="https://via.placeholder.com/80x80/28a745/ffffff?text=S" alt="User" class="rounded-circle mb-3">
-                            <h5>Siti Nurhaliza</h5>
-                            <p class="text-muted small">Pengurus Pemasaran</p>
-                            <p class="fst-italic">"Interface yang user-friendly dan banyak pilihan kerja. Sangat recommend untuk pencari kerja!"</p>
-                            <div class="text-warning">
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-md-4 mb-4">
-                    <div class="card feature-card h-100">
-                        <div class="card-body text-center p-4">
-                            <img src="https://via.placeholder.com/80x80/dc3545/ffffff?text=L" alt="User" class="rounded-circle mb-3">
-                            <h5>Lim Wei Ming</h5>
-                            <p class="text-muted small">Pereka Grafik</p>
-                            <p class="fst-italic">"Proses permohonan yang mudah dan pantas. Terima kasih E-JobDemo!"</p>
-                            <div class="text-warning">
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section id="about" class="py-5">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6 mb-4">
-                    <h2 class="display-5 fw-bold mb-4">Tentang E-JobDemo</h2>
-                    <p class="lead mb-4">Kami adalah platform tawaran kerja terkemuka di Malaysia yang menghubungkan pencari kerja dengan majikan terbaik.</p>
-                    <p class="mb-4">Dengan lebih 5,000 tawaran kerja aktif dan 1,200 syarikat berdaftar, kami komited untuk membantu anda mencari peluang kerjaya yang sesuai.</p>
-                    
-                    <div class="row mb-4">
-                        <div class="col-6">
-                            <div class="d-flex align-items-center mb-3">
-                                <i class="bi bi-check-circle-fill text-success me-3" style="font-size: 1.5rem;"></i>
-                                <span>Percuma untuk pencari kerja</span>
-                            </div>
-                            <div class="d-flex align-items-center mb-3">
-                                <i class="bi bi-check-circle-fill text-success me-3" style="font-size: 1.5rem;"></i>
-                                <span>Proses permohonan mudah</span>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="d-flex align-items-center mb-3">
-                                <i class="bi bi-check-circle-fill text-success me-3" style="font-size: 1.5rem;"></i>
-                                <span>Sokongan 24/7</span>
-                            </div>
-                            <div class="d-flex align-items-center mb-3">
-                                <i class="bi bi-check-circle-fill text-success me-3" style="font-size: 1.5rem;"></i>
-                                <span>Majikan terverifikasi</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <a href="{{ route('register') }}" class="btn btn-primary btn-custom btn-lg">
-                        <i class="bi bi-rocket-takeoff me-2"></i>Mulakan Sekarang
-                    </a>
-                </div>
-                <div class="col-lg-6">
-                    <img src="https://via.placeholder.com/600x400/f8f9fa/6c757d?text=About+Us" alt="About Us" class="img-fluid rounded-3 shadow">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="py-5" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-        <div class="container text-center text-white">
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    <h2 class="display-5 fw-bold mb-4">Sedia untuk Memulakan Kerjaya Baru?</h2>
-                    <p class="lead mb-4">Sertai ribuan pencari kerja yang telah berjaya mencari peluang kerjaya melalui platform kami.</p>
-                    <div class="d-flex gap-3 justify-content-center flex-wrap">
-                        <a href="{{ route('register') }}" class="btn btn-light btn-custom btn-lg">
-                            <i class="bi bi-person-plus me-2"></i>Daftar Percuma
-                        </a>
-                        <a href="#jobs" class="btn btn-outline-light btn-custom btn-lg">
-                            <i class="bi bi-search me-2"></i>Cari Kerja
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-dark text-light py-5">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4 mb-4">
-                    <h5 class="mb-3">
-                        <i class="bi bi-briefcase-fill me-2"></i>E-JobDemo
-                    </h5>
-                    <p class="text-light mb-3">Platform tawaran kerja terkemuka di Malaysia yang menghubungkan pencari kerja dengan peluang kerjaya terbaik.</p>
-                    <div class="d-flex gap-3">
-                        <a href="#" class="text-light">
-                            <i class="bi bi-facebook" style="font-size: 1.5rem;"></i>
-                        </a>
-                        <a href="#" class="text-light">
-                            <i class="bi bi-twitter" style="font-size: 1.5rem;"></i>
-                        </a>
-                        <a href="#" class="text-light">
-                            <i class="bi bi-instagram" style="font-size: 1.5rem;"></i>
-                        </a>
-                        <a href="#" class="text-light">
-                            <i class="bi bi-linkedin" style="font-size: 1.5rem;"></i>
-                        </a>
-                    </div>
-                </div>
-                
-                <div class="col-lg-2 col-md-6 mb-4">
-                    <h6 class="mb-3">Pautan Pantas</h6>
-                    <ul class="list-unstyled">
-                        <li><a href="#" class="text-light text-decoration-none">Cari Kerja</a></li>
-                        <li><a href="#" class="text-light text-decoration-none">Syarikat</a></li>
-                        <li><a href="#" class="text-light text-decoration-none">Kategori</a></li>
-                        <li><a href="#" class="text-light text-decoration-none">Blog</a></li>
-                    </ul>
-                </div>
-                
-                <div class="col-lg-2 col-md-6 mb-4">
-                    <h6 class="mb-3">Untuk Majikan</h6>
-                    <ul class="list-unstyled">
-                        <li><a href="#" class="text-light text-decoration-none">Siarkan Kerja</a></li>
-                        <li><a href="#" class="text-light text-decoration-none">Cari Bakat</a></li>
-                        <li><a href="#" class="text-light text-decoration-none">Harga</a></li>
-                        <li><a href="#" class="text-light text-decoration-none">Sumber</a></li>
-                    </ul>
-                </div>
-                
-                <div class="col-lg-4">
-                    <h6 class="mb-3">Hubungi Kami</h6>
-                    <p class="text-light mb-2">
-                        <i class="bi bi-geo-alt me-2"></i>
-                        Kuala Lumpur, Malaysia
-                    </p>
-                    <p class="text-light mb-2">
-                        <i class="bi bi-envelope me-2"></i>
-                        info@ejobdemo.com
-                    </p>
-                    <p class="text-light mb-3">
-                        <i class="bi bi-phone me-2"></i>
-                        +60 3-1234 5678
-                    </p>
-                    
-                    <h6 class="mb-3">Langgan Newsletter</h6>
-                    <form class="d-flex">
-                        <input type="email" class="form-control me-2" placeholder="Emel anda">
-                        <button class="btn btn-primary" type="submit">
-                            <i class="bi bi-send"></i>
-                        </button>
-                    </form>
-                </div>
-            </div>
-            
-            <hr class="my-4">
-            
-            <div class="row align-items-center">
-                <div class="col-md-6">
-                    <p class="mb-0">&copy; 2024 E-JobDemo. Hak Cipta Terpelihara.</p>
-                </div>
-                <div class="col-md-6 text-md-end">
-                    <a href="#" class="text-light text-decoration-none me-3">Dasar Privasi</a>
-                    <a href="#" class="text-light text-decoration-none me-3">Terma & Syarat</a>
-                    <a href="#" class="text-light text-decoration-none">Bantuan</a>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Back to Top Button -->
-    <button class="btn btn-primary position-fixed bottom-0 end-0 m-4 rounded-circle" id="backToTop" style="width: 50px; height: 50px; display: none; z-index: 1000;">
-        <i class="bi bi-arrow-up"></i>
-    </button>
-
-    <!-- Bootstrap 5.3 JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <script>
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-
-        // Back to top button functionality
-        const backToTopButton = document.getElementById('backToTop');
         
-        window.addEventListener('scroll', function() {
-            if (window.pageYOffset > 300) {
-                backToTopButton.style.display = 'block';
-            } else {
-                backToTopButton.style.display = 'none';
-            }
-        });
-
-        backToTopButton.addEventListener('click', function() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
-
-        // Navbar background change on scroll
-        window.addEventListener('scroll', function() {
-            const navbar = document.querySelector('.navbar');
-            if (window.pageYOffset > 50) {
-                navbar.style.background = 'rgba(0,0,0,0.95)';
-            } else {
-                navbar.style.background = 'rgba(0,0,0,0.9)';
-            }
-        });
-
-        // Animation on scroll (simple fade in effect)
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver(function(entries) {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
-
-        // Observe elements for animation
-        document.querySelectorAll('.feature-card, .job-card, .category-item').forEach(el => {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(20px)';
-            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-            observer.observe(el);
-        });
-
-        // Search form enhancement
-        document.querySelector('.search-box form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const searchTerm = this.querySelector('input[type="text"]').value;
-            const location = this.querySelector('select').value;
+        <div class="row g-5">
+            <div class="col-md-4 fade-in">
+                <div class="process-step">
+                    <div class="process-icon bg-primary">
+                        <i class="bi bi-person-plus"></i>
+                        <div class="process-number">1</div>
+                    </div>
+                    <h4 class="fw-bold mb-3">Daftar Akaun</h4>
+                    <p class="text-muted">Buat akaun percuma dan lengkapkan profil anda dengan maklumat yang diperlukan. Proses pendaftaran hanya mengambil masa beberapa minit sahaja.</p>
+                </div>
+            </div>
             
-            if (searchTerm.trim() === '') {
-                alert('Sila masukkan kata kunci pencarian');
-                return;
-            }
+            <div class="col-md-4 fade-in">
+                <div class="process-step">
+                    <div class="process-icon bg-success">
+                        <i class="bi bi-search"></i>
+                        <div class="process-number">2</div>
+                    </div>
+                    <h4 class="fw-bold mb-3">Cari Kerja</h4>
+                    <p class="text-muted">Gunakan carian canggih kami untuk mencari kerja yang sesuai dengan kemahiran, pengalaman dan lokasi pilihan anda.</p>
+                </div>
+            </div>
             
-            // Here you would typically redirect to search results page
-            console.log('Searching for:', searchTerm, 'in', location);
-            alert(`Mencari "${searchTerm}" di ${location}`);
-        });
+            <div class="col-md-4 fade-in">
+                <div class="process-step">
+                    <div class="process-icon bg-info">
+                        <i class="bi bi-send"></i>
+                        <div class="process-number">3</div>
+                    </div>
+                    <h4 class="fw-bold mb-3">Mohon Kerja</h4>
+                    <p class="text-muted">Hantar permohonan anda dengan mudah dan tunggu respons dari majikan. Kami akan memberitahu anda tentang status permohonan.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
-        // Newsletter subscription
-        document.querySelector('footer form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const email = this.querySelector('input[type="email"]').value;
+<!-- Testimonials Section -->
+<section class="section-padding bg-light">
+    <div class="container">
+        <div class="text-center mb-5 fade-in">
+            <h2 class="section-title">Apa Kata Pengguna Kami</h2>
+            <p class="section-subtitle">Dengar pengalaman mereka yang telah berjaya mendapat kerja melalui platform kami</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-4 fade-in">
+                <div class="testimonial-card">
+                    <div class="testimonial-avatar">
+                        <i class="bi bi-person"></i>
+                    </div>
+                    <h5 class="fw-bold mb-3">Ahmad Rahman</h5>
+                    <p class="text-muted mb-3">"Platform yang sangat mudah digunakan. Dalam masa 2 minggu, saya telah mendapat kerja impian saya sebagai pembangun web. Terima kasih E-JobDemo!"</p>
+                    <div class="text-warning">
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                    </div>
+                </div>
+            </div>
             
-            if (email.trim() === '') {
-                alert('Sila masukkan alamat emel');
-                return;
-            }
+            <div class="col-md-6 col-lg-4 fade-in">
+                <div class="testimonial-card">
+                    <div class="testimonial-avatar">
+                        <i class="bi bi-person"></i>
+                    </div>
+                    <h5 class="fw-bold mb-3">Siti Nurhaliza</h5>
+                    <p class="text-muted mb-3">"Sebagai fresh graduate, saya risau untuk mencari kerja. Tetapi dengan E-JobDemo, proses carian kerja menjadi lebih mudah dan berkesan."</p>
+                    <div class="text-warning">
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                    </div>
+                </div>
+            </div>
             
-            // Here you would typically send the email to your backend
-            alert('Terima kasih! Anda telah berjaya melanggan newsletter kami.');
-            this.querySelector('input[type="email"]').value = '';
-        });
+            <div class="col-md-6 col-lg-4 fade-in">
+                <div class="testimonial-card">
+                    <div class="testimonial-avatar">
+                        <i class="bi bi-person"></i>
+                    </div>
+                    <h5 class="fw-bold mb-3">Raj Kumar</h5>
+                    <p class="text-muted mb-3">"Interface yang bersih dan carian yang tepat. Saya berjaya menukar kerjaya dengan bantuan platform ini. Highly recommended!"</p>
+                    <div class="text-warning">
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
-        // Add loading animation to buttons
-        document.querySelectorAll('.btn-custom').forEach(button => {
-            button.addEventListener('click', function() {
-                if (this.getAttribute('href') && this.getAttribute('href').startsWith('#')) {
-                    return; // Skip for anchor links
-                }
-                
+<!-- CTA Section -->
+<section class="cta-section section-padding">
+    <div class="container cta-content">
+        <div class="row justify-content-center text-center">
+            <div class="col-lg-8 fade-in">
+                <h2 class="display-5 fw-bold mb-4">Mulakan Perjalanan Kerjaya Anda Hari Ini</h2>
+                <p class="lead mb-4">Sertai ribuan pencari kerja yang telah mempercayai E-JobDemo untuk mencari peluang kerjaya terbaik. Daftar sekarang dan temui kerja impian anda!</p>
+                <div class="d-flex flex-wrap justify-content-center gap-3">
+                    <a href="{{ route('register') }}" class="btn btn-light btn-custom btn-lg">
+                        <i class="bi bi-person-plus me-2"></i>Daftar Percuma
+                    </a>
+                    <a href="#jobs" class="btn btn-outline-light btn-custom btn-lg">
+                        <i class="bi bi-search me-2"></i>Cari Kerja
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@endsection
+
+@push('scripts')
+<script>
+    // Job search form enhancement
+    document.getElementById('jobSearchForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const searchTerm = this.querySelector('input[name="search"]').value;
+        const location = this.querySelector('select[name="location"]').value;
+        
+        if (searchTerm.trim() === '') {
+            alert('Sila masukkan kata kunci pencarian');
+            return;
+        }
+        
+        // Here you would typically redirect to search results page
+        console.log('Searching for:', searchTerm, 'in', location);
+        alert(`Mencari "${searchTerm}" ${location ? 'di ' + location : 'di semua lokasi'}`);
+    });
+    
+    // Add loading animation to job application buttons
+    document.querySelectorAll('.job-card .btn').forEach(button => {
+        button.addEventListener('click', function(e) {
+            if (this.getAttribute('href') === '#') {
+                e.preventDefault();
                 const originalText = this.innerHTML;
                 this.innerHTML = '<i class="bi bi-hourglass-split me-2"></i>Memuat...';
                 this.disabled = true;
@@ -776,10 +664,11 @@
                 setTimeout(() => {
                     this.innerHTML = originalText;
                     this.disabled = false;
+                    alert('Fungsi ini akan tersedia tidak lama lagi!');
                 }, 1000);
-            });
+            }
         });
-    </script>
-</body>
-</html>
+    });
+</script>
+@endpush
 

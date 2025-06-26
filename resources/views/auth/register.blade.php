@@ -1,37 +1,89 @@
 @extends('auth.induk')
 
+@section('title')
+Daftar - E-JobDemo
+@endsection
+
 @section('content-title')
-Pendaftaran Pengguna Baru
+Cipta Akaun Baru
+@endsection
+
+@section('content-subtitle')
+Sertai ribuan pencari kerja dan majikan di platform kami
 @endsection
 
 @section('content')
 <form method="POST" action="{{ route('register') }}">
     @csrf
+    
     <div class="mb-3">
-        <label for="name" class="form-label">Nama Penuh</label>
-        <input type="text" class="form-control" id="name" name="name" required autofocus placeholder="Nama penuh anda">
+        <label for="name" class="form-label">
+            <i class="bi bi-person me-2"></i>Nama Penuh
+        </label>
+        <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" 
+               value="{{ old('name') }}" required autofocus placeholder="Masukkan nama penuh anda">
+        @error('name')
+            <div class="invalid-feedback">
+                <i class="bi bi-exclamation-circle me-1"></i>{{ $message }}
+            </div>
+        @enderror
     </div>
+    
     <div class="mb-3">
-        <label for="email" class="form-label">Emel</label>
-        <input type="email" class="form-control" id="email" name="email" required placeholder="Emel aktif">
+        <label for="email" class="form-label">
+            <i class="bi bi-envelope me-2"></i>Alamat Emel
+        </label>
+        <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" 
+               value="{{ old('email') }}" required placeholder="Masukkan alamat emel aktif">
+        @error('email')
+            <div class="invalid-feedback">
+                <i class="bi bi-exclamation-circle me-1"></i>{{ $message }}
+            </div>
+        @enderror
     </div>
+    
     <div class="mb-3">
-        <label for="password" class="form-label">Kata Laluan</label>
-        <input type="password" class="form-control" id="password" name="password" required placeholder="Kata laluan">
+        <label for="password" class="form-label">
+            <i class="bi bi-lock me-2"></i>Kata Laluan
+        </label>
+        <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" 
+               required placeholder="Minimum 8 aksara">
+        @error('password')
+            <div class="invalid-feedback">
+                <i class="bi bi-exclamation-circle me-1"></i>{{ $message }}
+            </div>
+        @enderror
     </div>
+    
     <div class="mb-3">
-        <label for="password_confirmation" class="form-label">Sahkan Kata Laluan</label>
-        <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required placeholder="Ulang kata laluan">
+        <label for="password_confirmation" class="form-label">
+            <i class="bi bi-shield-check me-2"></i>Sahkan Kata Laluan
+        </label>
+        <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" 
+               required placeholder="Ulang kata laluan yang sama">
     </div>
-    <div class="d-grid mb-3">
-        <button type="submit" class="btn btn-gradient btn-lg">Daftar</button>
+    
+    <div class="mb-3">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="terms" required>
+            <label class="form-check-label" for="terms">
+                Saya bersetuju dengan <a href="#" class="auth-link">Terma & Syarat</a> dan <a href="#" class="auth-link">Dasar Privasi</a>
+            </label>
+        </div>
     </div>
+    
+    <div class="d-grid mb-4">
+        <button type="submit" class="btn btn-custom btn-primary-custom">
+            <i class="bi bi-person-plus me-2"></i>Cipta Akaun
+        </button>
+    </div>
+    
     <div class="text-center">
-        <a href="#" class="text-primary text-decoration-none">Sudah ada akaun? Log Masuk</a>
+        <p class="mb-0">Sudah mempunyai akaun? 
+            <a href="{{ route('login') }}" class="auth-link">
+                <i class="bi bi-box-arrow-in-right me-1"></i>Masuk sekarang
+            </a>
+        </p>
     </div>
 </form>
-@endsection
-
-@section('title')
-Halaman Pendaftaran
 @endsection
