@@ -414,14 +414,9 @@
                 <span>Jawatan</span>
             </a>
             
-            <a href="{{ url('/admin/reports') }}" class="nav-link {{ request()->is('admin/reports*') ? 'active' : '' }}">
+            <a href="{{ route('admin.permohonan.index') }}" class="nav-link {{ request()->is('admin/reports*') ? 'active' : '' }}">
                 <i class="bi bi-graph-up"></i>
-                <span>Laporan</span>
-            </a>
-            
-            <a href="{{ url('/admin/settings') }}" class="nav-link {{ request()->is('admin/settings*') ? 'active' : '' }}">
-                <i class="bi bi-gear"></i>
-                <span>Tetapan</span>
+                <span>Permohonan</span>
             </a>
         </div>
     </nav>

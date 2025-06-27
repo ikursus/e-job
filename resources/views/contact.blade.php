@@ -236,7 +236,8 @@
             <div class="col-lg-8 fade-in">
                 <div class="contact-form">
                     <h3 class="fw-bold mb-4">Hantar Mesej Kepada Kami</h3>
-                    <form id="contactForm">
+                    <form method="POST" action="{{ route('contact.send') }}">
+                        @csrf
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <label for="firstName" class="form-label">Nama Pertama *</label>
@@ -480,74 +481,3 @@
     </div>
 </section>
 @endsection
-
-@push('scripts')
-<script>
-    // Contact form handling
-    document.getElementById('contactForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // Get form data
-        const formData = new FormData(this);
-        const firstName = formData.get('firstName');
-        const lastName = formData.get('lastName');
-        const email = formData.get('email');
-        const subject = formData.get('subject');
-        const message = formData.get('message');
-        const privacy = formData.get('privacy');
-        
-        // Basic validation
-        if (!firstName || !lastName || !email || !subject || !message || !privacy) {
-            alert('Sila lengkapkan semua medan yang diperlukan.');
-            return;
-        }
-        
-        // Email validation
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            alert('Sila masukkan alamat e-mel yang sah.');
-            return;
-        }
-        
-        // Show loading state
-        const submitBtn = this.querySelector('button[type="submit"]');
-        const originalText = submitBtn.innerHTML;
-        submitBtn.innerHTML = '<i class="bi bi-hourglass-split me-2"></i>Menghantar...';
-        submitBtn.disabled = true;
-        
-        // Simulate form submission
-        setTimeout(() => {
-            alert('Terima kasih! Mesej anda telah berjaya dihantar. Kami akan menghubungi anda dalam masa 24 jam.');
-            this.reset();
-            submitBtn.innerHTML = originalText;
-            submitBtn.disabled = false;
-        }, 2000);
-    });
-    
-    // FAQ accordion enhancement
-    document.querySelectorAll('.faq-header').forEach(button => {
-        button.addEventListener('click', function() {
-            const icon = this.querySelector('i');
-            const target = document.querySelector(this.getAttribute('data-bs-target'));
-            
-            // Toggle icon
-            setTimeout(() => {
-                if (target.classList.contains('show')) {
-                    icon.className = 'bi bi-dash-circle me-2';
-                } else {
-                    icon.className = 'bi bi-plus-circle me-2';
-                }
-            }, 100);
-        });
-    });
-    
-    // Social links tracking
-    document.querySelectorAll('.social-links a').forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            const platform = this.getAttribute('title');
-            alert(`Pautan ${platform} akan tersedia tidak lama lagi!`);
-        });
-    });
-</script>
-@endpush

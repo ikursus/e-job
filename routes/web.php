@@ -6,11 +6,8 @@ use App\Http\Controllers\IklanController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\RegisterController;
-use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\PermohonanController;
-use App\Http\Controllers\Admin\JawatanController;
 use App\Http\Controllers\PasswordResetController;
-use App\Http\Controllers\Admin\DashboardController;
 
 // Halaman utama
 // Format route: Route::method('url', function);
@@ -33,27 +30,6 @@ Route::post('/password/reset', [PasswordResetController::class, 'updatePassword'
 Route::get('/contact', [ContactController::class, 'borangContact'])->name('contact');
 Route::post('/contact', [ContactController::class, 'sendContact'])->name('contact.send');
 
-// Route untuk admin
-Route::group([
-    'prefix' => 'admin', // Prefix URL untuk admin
-    'as' => 'admin.', // Prefix untuk nama route
-    'middleware' => ['auth']
-], function () {
-   
-    Route::get('/dashboard', DashboardController::class)->name('dashboard');
-
-    // Route untuk pengurusan pengguna
-    Route::get('/users', [UserController::class, 'index'])->name('users.index');
-    Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
-    Route::post('/users', [UserController::class, 'store'])->name('users.store');
-    Route::get('/users/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
-    Route::put('/users/{id}/edit', [UserController::class, 'update'])->name('users.update');
-    Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
-
-    // Route untuk pengurusan jawatan
-    Route::resource('jawatan', JawatanController::class);
-});
-
 // Route untuk pengguna
 Route::middleware('auth')->group( function() {
 
@@ -64,7 +40,7 @@ Route::middleware('auth')->group( function() {
     Route::get('jobs', [IklanController::class, 'index'])->name('jobs.index');
     Route::get('jobs/apply/{id?}', [PermohonanController::class, 'store'])->name('jobs.apply');
 
-    Route::get('permohonan', [PermohonanController::class, 'index'])->name('permohonan.index');
+    Route::get('permohonan', [\App\Http\Controllers\PermohonanController::class, 'index'])->name('permohonan.index');
 });
 
 Route::view('contoh', 'template-contoh');

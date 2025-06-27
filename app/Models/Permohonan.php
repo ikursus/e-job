@@ -19,6 +19,11 @@ class Permohonan extends Model
     public const STATUS_ACCEPTED = 'accepted';
     public const STATUS_REJECTED = 'rejected';
 
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
     public function jawatan()
     {
         return $this->belongsTo(Jawatan::class, 'jawatan_id', 'id');
