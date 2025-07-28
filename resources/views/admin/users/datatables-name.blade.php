@@ -1,0 +1,1 @@
+<span class="fw-bolder fs-5 text-danger">{{ $user->name }}</span>

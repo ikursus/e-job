@@ -37,12 +37,16 @@ class UserController extends Controller
         $query = User::query();
 
         return DataTables::of($query)
+            ->editColumn('name', function($user) {
+                return view('admin.users.datatables-name', compact('user'));
+            })
             ->addColumn('actions', function($user) {                               
                 return view('admin.users.datatables-buttons', compact('user'));
             })
             ->addIndexColumn()
-            ->rawColumns(['actions'])
+            ->rawColumns(['name', 'actions'])
             ->make(true);
+
     }
 
     /**
