@@ -38,7 +38,7 @@ class UserController extends Controller
 
         return DataTables::of($query)
             ->addColumn('actions', function($user) {                               
-                return '';
+                return view('admin.users.datatables-buttons', compact('user'));
             })
             ->addIndexColumn()
             ->rawColumns(['actions'])

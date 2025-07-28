@@ -156,19 +156,7 @@
         color: #764ba2;
         font-weight: 600;
     }
-    .fade-in {
-        animation: fadeInUp 0.6s ease-out;
-    }
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
+    
     .status-badge {
         padding: 0.5rem 1rem;
         border-radius: 20px;
