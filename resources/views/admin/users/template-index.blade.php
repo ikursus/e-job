@@ -1,7 +1,8 @@
 @extends('admin.induk')
 
 @push('styles')
-<style>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/2.3.2/css/dataTables.dataTables.min.css"/>
+    <style>
     .stats-card {
         border: none;
         border-radius: 15px;
@@ -230,7 +231,7 @@
                     <div class="stats-icon mx-auto" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
                         <i class="bi bi-people"></i>
                     </div>
-                    <h3 class="stats-number">{{ $senaraiUsers->count() }}</h3>
+                    <h3 class="stats-number">{{ $totalUsers ?? 0 }}</h3>
                     <p class="stats-label">Jumlah Pengguna</p>
                 </div>
             </div>
@@ -241,7 +242,7 @@
                     <div class="stats-icon mx-auto" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
                         <i class="bi bi-person-check"></i>
                     </div>
-                    <h3 class="stats-number">{{ $senaraiUsers->where('status', 'aktif')->count() }}</h3>
+                    <h3 class="stats-number">{{ $activeUsers ?? 0 }}</h3>
                     <p class="stats-label">Pengguna Aktif</p>
                 </div>
             </div>
@@ -252,7 +253,7 @@
                     <div class="stats-icon mx-auto" style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);">
                         <i class="bi bi-person-x"></i>
                     </div>
-                    <h3 class="stats-number">{{ $senaraiUsers->where('status', 'tidak aktif')->count() }}</h3>
+                    <h3 class="stats-number">{{ $inactiveUsers ?? 0 }}</h3>
                     <p class="stats-label">Pengguna Tidak Aktif</p>
                 </div>
             </div>
@@ -263,7 +264,7 @@
                     <div class="stats-icon mx-auto" style="background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);">
                         <i class="bi bi-person-plus"></i>
                     </div>
-                    <h3 class="stats-number">{{ $senaraiUsers->where('created_at', '>=', now()->startOfMonth())->count() }}</h3>
+                    <h3 class="stats-number">{{ $newThisMonth ?? 0 }}</h3>
                     <p class="stats-label">Baru Bulan Ini</p>
                 </div>
             </div>
@@ -290,7 +291,7 @@
         </div>
         <div class="card-body p-0">
             <div class="table-responsive">
-                <table class="table custom-table">
+                <table class="table custom-table" id="table-datatables">
                     <thead>
                         <tr>
                             <th><i class="bi bi-hash me-1"></i>ID</th>
@@ -302,69 +303,6 @@
                             <th><i class="bi bi-gear me-1"></i>Tindakan</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        @forelse($senaraiUsers as $user)
-                        <tr>
-                            <td><strong>{{ $user->id }}</strong></td>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <div class="avatar-sm bg-gradient rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 40px; height: 40px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-                                        <i class="bi bi-person text-white"></i>
-                                    </div>
-                                    <div>
-                                        <strong>{{ $user->name }}</strong>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>{{ $user->email }}</td>
-                            <td>{{ $user->phone ?? '-' }}</td>
-                            <td>
-                                @if($user->status == 'aktif')
-                                    <span class="status-badge status-active">
-                                        <i class="bi bi-check-circle me-1"></i>Aktif
-                                    </span>
-                                @else
-                                    <span class="status-badge status-inactive">
-                                        <i class="bi bi-x-circle me-1"></i>{{ $user->status ?? 'Tidak Aktif' }}
-                                    </span>
-                                @endif
-                            </td>
-                            <td>
-                                <div>
-                                    <strong>{{ $user->created_at }}</strong><br>
-                                    <small class="text-muted">{{ $user->created_at }}</small>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="d-flex">
-                                    <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-sm btn-action btn-edit" title="Edit Pengguna">
-                                        <i class="bi bi-pencil"></i>
-                                    </a>
-                                    <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Adakah anda pasti mahu memadam pengguna ini?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-action btn-delete" title="Padam Pengguna">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                        @empty
-                        <tr>
-                            <td colspan="7">
-                                <div class="empty-state">
-                                    <i class="bi bi-people"></i>
-                                    <h5>Tiada Pengguna Dijumpai</h5>
-                                    <p>Belum ada pengguna yang didaftarkan dalam sistem.</p>
-                                    <a href="{{ route('admin.users.create') }}" class="btn btn-add text-white">
-                                        <i class="bi bi-plus-lg me-2"></i>Tambah Pengguna Pertama
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
-                        @endforelse
-                    </tbody>
                 </table>
             </div>
         </div>
@@ -373,28 +311,35 @@
 @endsection
 
 @push('scripts')
+<!-- Load jQuery first -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/2.3.2/js/dataTables.min.js"></script>
 <script>
-// Search functionality
-document.getElementById('searchUser').addEventListener('keyup', function() {
-    const searchTerm = this.value.toLowerCase();
-    const tableRows = document.querySelectorAll('.custom-table tbody tr');
-    
-    tableRows.forEach(row => {
-        const name = row.cells[1].textContent.toLowerCase();
-        const email = row.cells[2].textContent.toLowerCase();
-        const phone = row.cells[3].textContent.toLowerCase();
-        
-        if (name.includes(searchTerm) || email.includes(searchTerm) || phone.includes(searchTerm)) {
-            row.style.display = '';
-        } else {
-            row.style.display = 'none';
-        }
+    $(function() {
+        $('#table-datatables').DataTable({  // Changed from #datatables-table
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: '{!! route('admin.users.datatables') !!}',
+                type:'POST',
+                'headers': {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+            },
+            columns: [
+                { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+                { data: 'name', name: 'name' },
+                { data: 'email', name: 'email' },
+                { data: 'phone', name: 'phone' },
+                { data: 'status', name: 'status' },
+                { data: 'created_at', name: 'created_at' },
+                { data: 'actions', name: 'actions', orderable: false, searchable: false }
+            ],
+            'ordering': true,
+            'info': true,
+            'autoWidth': false,
+            order: [[5, 'desc']],
+        });
     });
-});
-
-// Enhanced delete confirmation
-function confirmDelete(userName) {
-    return confirm(`Adakah anda pasti mahu memadam pengguna "${userName}"? Tindakan ini tidak boleh dibatalkan.`);
-}
 </script>
 @endpush

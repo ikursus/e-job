@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Exports\PermohonanExport;
 use App\Http\Controllers\Controller;
 use Maatwebsite\Excel\Facades\Excel;
+use PDF;
 
 class PermohonanController extends Controller
 {

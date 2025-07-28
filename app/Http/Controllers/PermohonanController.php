@@ -29,7 +29,11 @@ class PermohonanController extends Controller
         //     )
         //     ->get();
 
+        // Cara 2 mendapatkan senarai permohonan menggunakan kaedah relationship query builder
         $senaraiPermohonan = auth()->user()->senaraiPermohonan;
+
+        // Cara 3 mendapatkan senarai permohonan menggunakan kaedah relationship query builder
+        //$senaraiPermohonan = auth()->user()->senaraiPermohonan()->with(['jawatan'])->get();
 
         return view('pengguna.permohonan', compact('senaraiPermohonan'));
     }

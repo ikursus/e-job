@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Validation\Rules\Password;
+use Yajra\DataTables\DataTables;
 
 class UserController extends Controller
 {
@@ -15,11 +16,33 @@ class UserController extends Controller
      */
     public function index()
     {
-        // Retrieve all users from the database
-        // $senaraiUsers = DB::table('users')->get();
-        $senaraiUsers = User::all();
+        // Calculate statistics for the dashboard
+        $totalUsers = User::count();
+        $activeUsers = User::whereIn('status', ['active', 'aktif'])->count();
+        $inactiveUsers = User::whereIn('status', ['inactive', 'tidak aktif'])->count();
+        $newThisMonth = User::whereMonth('created_at', now()->month)
+                           ->whereYear('created_at', now()->year)
+                           ->count();
 
-        return view('admin.users.template-index', compact('senaraiUsers'));
+        return view('admin.users.template-index', compact(
+            'totalUsers', 
+            'activeUsers', 
+            'inactiveUsers', 
+            'newThisMonth'
+        ));
+    }
+
+    public function datatables()
+    {
+        $query = User::query();
+
+        return DataTables::of($query)
+            ->addColumn('actions', function($user) {                               
+                return '';
+            })
+            ->addIndexColumn()
+            ->rawColumns(['actions'])
+            ->make(true);
     }
 
     /**

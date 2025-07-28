@@ -507,6 +507,8 @@
 
     <!-- Bootstrap 5.3 JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom scripts -->
+    @stack('scripts')
     
     <script>
         // Sidebar toggle functionality
@@ -536,7 +538,5 @@
         }, 5000);
     </script>
     
-    <!-- Custom scripts -->
-    @stack('scripts')
 </body>
 </html>

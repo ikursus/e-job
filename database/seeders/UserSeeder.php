@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -39,5 +40,8 @@ class UserSeeder extends Seeder
             'phone' => '0112233445',
             'status' => 'active',
         ]);
+
+        // Panggil UserFactory untuk membuat 100 rekod sample user 4-13
+        User::factory()->count(10000)->create();
     }
 }

@@ -16,6 +16,7 @@ use App\Http\Controllers\Admin\PermohonanController;
 Route::get('/dashboard', DashboardController::class)->name('dashboard');
 
 // Route untuk pengurusan pengguna
+Route::post('/users/datatables', [UserController::class, 'datatables'])->name('users.datatables');
 Route::get('/users', [UserController::class, 'index'])->name('users.index');
 Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
 Route::post('/users', [UserController::class, 'store'])->name('users.store');
