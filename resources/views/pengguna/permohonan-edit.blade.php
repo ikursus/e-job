@@ -113,9 +113,11 @@
                             <a href="{{ route('permohonan.index') }}" class="btn btn-secondary">
                                 <i class="bi bi-arrow-left me-2"></i>Kembali
                             </a>
+                            @can('update', $permohonan)
                             <button type="submit" class="btn btn-gradient">
                                 <i class="bi bi-check-circle me-2"></i>Kemaskini Permohonan
                             </button>
+                            @endcan
                         </div>
                     </form>
                 </div>

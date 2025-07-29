@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Permohonan;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class PermohonanController extends Controller
 {
+    use AuthorizesRequests;
+
     /**
      * Display a listing of the resource.
      */
@@ -77,9 +79,10 @@ class PermohonanController extends Controller
     public function edit(Permohonan $permohonan)
     {
         // Pastikan pengguna hanya boleh edit permohonan sendiri
-        if ($permohonan->user_id !== auth()->id()) {
-            return redirect()->route('permohonan.index')->with('message-danger', 'Anda tidak dibenarkan mengakses permohonan ini.');
-        }
+        // if ($permohonan->user_id !== auth()->id()) {
+        //     return redirect()->route('permohonan.index')->with('message-danger', 'Anda tidak dibenarkan mengakses permohonan ini.');
+        // }
+        $this->authorize('update', $permohonan);
 
         // Hanya permohonan dengan status pending boleh diedit
         if ($permohonan->status !== 'pending') {
@@ -95,9 +98,10 @@ class PermohonanController extends Controller
     public function update(Request $request, Permohonan $permohonan)
     {
         // Pastikan pengguna hanya boleh update permohonan sendiri
-        if ($permohonan->user_id !== auth()->id()) {
-            return redirect()->route('permohonan.index')->with('message-danger', 'Anda tidak dibenarkan mengakses permohonan ini.');
-        }
+        // if ($permohonan->user_id !== auth()->id()) {
+        //     return redirect()->route('permohonan.index')->with('message-danger', 'Anda tidak dibenarkan mengakses permohonan ini.');
+        // }
+        $this->authorize('update', $permohonan);
 
         // Hanya permohonan dengan status pending boleh diupdate
         if ($permohonan->status !== 'pending') {
