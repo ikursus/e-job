@@ -118,6 +118,7 @@ class UserController extends Controller
             'email' => 'required|email:filter|unique:users,email,' . $id,
             'status' => 'required',
             'phone' => 'nullable|string|max:15',
+            'role' => 'required|array',
         ]);
 
         // Cek jika password diisi, jika tidak, jangan ubah password
@@ -127,8 +128,13 @@ class UserController extends Controller
             unset($data['password']); // Remove password from data if not filled
         }
 
+        // Assignkan user kepada role
+        $user = User::findOrFail($id);
+        $user->syncRoles($data['role']);
+
         // Update data ke table users menggunakan query builder
-        DB::table('users')->where('id', $id)->update($data);
+        // DB::table('users')->where('id', $id)->update($data);
+        $user->update($data);
 
         // Redirect ke halaman senarai users dengan mesej kejayaan
         return redirect()->back()->with('message-success', 'User updated successfully.');   
