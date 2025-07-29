@@ -18,7 +18,8 @@ class DatabaseSeeder extends Seeder
             PermissionSeeder::class,
             RoleSeeder::class,
             UserSeeder::class,
-            // Tambah seeder untuk jawatan
+            JawatanSeeder::class,
+            PermohonanSeeder::class,
         ]);
     }
 }
