@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\Controller;
 use Illuminate\Validation\Rules\Password;
+use Spatie\Permission\Models\Role;
 use Yajra\DataTables\DataTables;
 
 class UserController extends Controller
@@ -54,7 +55,10 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('admin.users.template-create');
+        // Dapatkan senarai roles
+        $senaraiRoles = Role::all();
+        
+        return view('admin.users.template-create', compact('senaraiRoles'));
     }
 
     /**
@@ -94,10 +98,13 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
+        // Dapatkan senarai roles
+        $senaraiRoles = Role::all();
         // Cari rekod user berdasarkan ID
-        $user = DB::table('users')->where('id', $id)->first();
+        // $user = DB::table('users')->where('id', $id)->first();
+        $user =  User::findOrFail($id);
 
-        return view('admin.users.template-edit', compact('user'));
+        return view('admin.users.template-edit', compact('user', 'senaraiRoles'));
     }
 
     /**
