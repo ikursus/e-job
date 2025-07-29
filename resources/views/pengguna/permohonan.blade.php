@@ -129,6 +129,10 @@
                                                 <i class="bi bi-eye"></i>
                                             </button>
                                             @if($permohonan->status === 'pending')
+                                            <a href="{{ route('permohonan.edit', $permohonan->id) }}" 
+                                               class="btn btn-sm btn-outline-warning">
+                                                <i class="bi bi-pencil"></i>
+                                            </a>
                                             <button type="button" class="btn btn-sm btn-outline-danger"
                                                     onclick="batalPermohonan({{ $permohonan->id }})">
                                                 <i class="bi bi-trash"></i>
@@ -269,8 +273,8 @@ $(document).ready(function() {
 
 function batalPermohonan(id) {
     if (confirm('Adakah anda pasti ingin membatalkan permohonan ini?')) {
-        // Add AJAX call to cancel application
-        fetch(`/pengguna/permohonan/${id}/batal`, {
+        // Add AJAX call to cancel application using the correct route
+        fetch(`/permohonan/${id}`, {
             method: 'DELETE',
             headers: {
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
@@ -280,6 +284,8 @@ function batalPermohonan(id) {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
+                // Show success message
+                alert(data.message);
                 location.reload();
             } else {
                 alert('Ralat: ' + data.message);

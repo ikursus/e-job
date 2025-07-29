@@ -41,6 +41,9 @@ Route::middleware('auth', 'checkuser')->group( function() {
     Route::get('jobs/apply/{id?}', [PermohonanController::class, 'store'])->name('jobs.apply');
 
     Route::get('permohonan', [\App\Http\Controllers\PermohonanController::class, 'index'])->name('permohonan.index');
+    Route::get('permohonan/{permohonan}/edit', [\App\Http\Controllers\PermohonanController::class, 'edit'])->name('permohonan.edit');
+    Route::put('permohonan/{permohonan}', [\App\Http\Controllers\PermohonanController::class, 'update'])->name('permohonan.update');
+    Route::delete('permohonan/{permohonan}', [\App\Http\Controllers\PermohonanController::class, 'destroy'])->name('permohonan.destroy');
 });
 
 Route::view('contoh', 'template-contoh');

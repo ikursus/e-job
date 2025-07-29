@@ -76,7 +76,17 @@ class PermohonanController extends Controller
      */
     public function edit(Permohonan $permohonan)
     {
-        //
+        // Pastikan pengguna hanya boleh edit permohonan sendiri
+        if ($permohonan->user_id !== auth()->id()) {
+            return redirect()->route('permohonan.index')->with('message-danger', 'Anda tidak dibenarkan mengakses permohonan ini.');
+        }
+
+        // Hanya permohonan dengan status pending boleh diedit
+        if ($permohonan->status !== 'pending') {
+            return redirect()->route('permohonan.index')->with('message-danger', 'Permohonan yang telah diproses tidak boleh diedit.');
+        }
+
+        return view('pengguna.permohonan-edit', compact('permohonan'));
     }
 
     /**
@@ -84,7 +94,29 @@ class PermohonanController extends Controller
      */
     public function update(Request $request, Permohonan $permohonan)
     {
-        //
+        // Pastikan pengguna hanya boleh update permohonan sendiri
+        if ($permohonan->user_id !== auth()->id()) {
+            return redirect()->route('permohonan.index')->with('message-danger', 'Anda tidak dibenarkan mengakses permohonan ini.');
+        }
+
+        // Hanya permohonan dengan status pending boleh diupdate
+        if ($permohonan->status !== 'pending') {
+            return redirect()->route('permohonan.index')->with('message-danger', 'Permohonan yang telah diproses tidak boleh diedit.');
+        }
+
+        // Validasi input
+        $request->validate([
+            'catatan' => 'nullable|string|max:1000',
+        ], [
+            'catatan.max' => 'Catatan tidak boleh melebihi 1000 aksara.',
+        ]);
+
+        // Update permohonan
+        $permohonan->update([
+            'catatan' => $request->catatan,
+        ]);
+
+        return redirect()->route('permohonan.index')->with('message-success', 'Permohonan berjaya dikemaskini.');
     }
 
     /**
@@ -92,6 +124,39 @@ class PermohonanController extends Controller
      */
     public function destroy(Permohonan $permohonan)
     {
-        //
+        // Pastikan pengguna hanya boleh delete permohonan sendiri
+        if ($permohonan->user_id !== auth()->id()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Anda tidak dibenarkan mengakses permohonan ini.'
+            ], 403);
+        }
+
+        // Hanya permohonan dengan status pending boleh dihapus
+        if ($permohonan->status !== 'pending') {
+            return response()->json([
+                'success' => false,
+                'message' => 'Permohonan yang telah diproses tidak boleh dibatalkan.'
+            ], 422);
+        }
+
+        try {
+            // Simpan maklumat jawatan untuk mesej
+            $namaJawatan = $permohonan->jawatan->title ?? 'Jawatan';
+            
+            // Hapus permohonan
+            $permohonan->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => "Permohonan untuk jawatan '{$namaJawatan}' berjaya dibatalkan."
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Ralat berlaku semasa membatalkan permohonan. Sila cuba lagi.'
+            ], 500);
+        }
     }
 }
