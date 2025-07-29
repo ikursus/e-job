@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class CheckAdminRole
+class CheckUserRole
 {
     /**
      * Handle an incoming request.
@@ -22,11 +22,13 @@ class CheckAdminRole
         }
 
         // Cek role admin
-        if (!Auth::user()->hasAnyRole(['admin', 'super admin'])) {
-            return abort(403, 'You do not have admin access.');
+        if (!Auth::user()->hasRole('user')) {
+            // Logout segala sesi
+            Auth::logout();
+            
+            return abort(403, 'You do not have user access.');
         }
 
-        // Kalau tak ada masalah, lanjutkan ke halaman yang ingin dibuka
         return $next($request);
     }
 }

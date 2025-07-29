@@ -13,7 +13,14 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-        Role::create([
+        $superAdminRole = Role::create([
+            'name' => 'super admin',
+            'guard_name' => 'web',
+            'label' => 'pengurusan',
+            'description' => 'Pentadbir sistem',
+        ]);
+
+        $adminRole = Role::create([
             'name' => 'admin',
             'guard_name' => 'web',
             'label' => 'pengurusan',
@@ -26,5 +33,16 @@ class RoleSeeder extends Seeder
             'label' => 'pengguna',
             'description' => 'Pengguna sistem',
         ]);
+
+        // Assign permissions to super admin role
+        $superAdminRole->givePermissionTo('users.index');
+        $superAdminRole->givePermissionTo('users.create');
+        $superAdminRole->givePermissionTo('users.edit');
+        $superAdminRole->givePermissionTo('users.delete');
+
+        // Assign permissions to admin role
+        $adminRole->givePermissionTo('users.index');
+        $adminRole->givePermissionTo('users.create');
+        $adminRole->givePermissionTo('users.edit');
     }
 }

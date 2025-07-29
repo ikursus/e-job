@@ -73,13 +73,18 @@ class UserController extends Controller
             'password' => ['required', 'string', 'confirmed', Password::min(3)],
             'status' => 'required',
             'phone' => 'nullable|string|max:15',
+            'role' => 'required|array',
         ]);
 
         // Encrypt the password before saving
         $data['password'] = bcrypt($data['password']); // Encrypt the password
 
         // Simpan data ke table users menggunakan query builder
-        DB::table('users')->insert($data);
+        // DB::table('users')->insert($data);
+        $user = User::create($data);
+
+        // Assignkan user kepada role
+        $user->syncRoles($data['role']);
 
         // Redirect ke halaman senarai users dengan mesej kejayaan
         return redirect()->route('admin.users.index')->with('message-success', 'User created successfully.');        

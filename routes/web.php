@@ -31,7 +31,7 @@ Route::get('/contact', [ContactController::class, 'borangContact'])->name('conta
 Route::post('/contact', [ContactController::class, 'sendContact'])->name('contact.send');
 
 // Route untuk pengguna
-Route::middleware('auth')->group( function() {
+Route::middleware('auth', 'checkuser')->group( function() {
 
     Route::get('dashboard', function () {
         return view('pengguna.template-dashboard');

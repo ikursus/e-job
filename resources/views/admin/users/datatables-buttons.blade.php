@@ -6,9 +6,11 @@
     </a>
 
     {{-- Delete Button with Modal --}}
+    @can('users.delete')
     <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $user->id }}">
         <i class="fas fa-trash"></i> Delete
     </button>
+    @endcan
 </div>
 
 {{-- Delete Confirmation Modal --}}
