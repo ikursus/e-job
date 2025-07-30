@@ -456,7 +456,7 @@
                             @endforeach
 
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item text-center" href="#">Lihat semua</a></li>
+                            <li><a class="dropdown-item text-center" href="{{ route('admin.notifications.index') }}">Lihat semua</a></li>
                         </ul>
                     </div>
                     
