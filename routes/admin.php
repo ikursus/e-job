@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Admin\JawatanController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PermohonanController;
@@ -32,5 +33,9 @@ Route::get('permohonan', [PermohonanController::class, 'index'])->name('permohon
 
 Route::get('permohonan/export', [PermohonanController::class, 'export'])->name('permohonan.export');
 Route::get('permohonan/{id}', [PermohonanController::class, 'show'])->name('permohonan.show');
+
+Route::get('notifications', [NotificationController::class, 'index'])->name('notifications.index');
+Route::get('notifications/{id}', [NotificationController::class, 'read'])->name('notifications.read');
+
 
 // });

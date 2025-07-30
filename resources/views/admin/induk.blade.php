@@ -438,12 +438,23 @@
                     <div class="dropdown me-3">
                         <button class="btn btn-link text-decoration-none" type="button" data-bs-toggle="dropdown">
                             <i class="bi bi-bell" style="font-size: 1.2rem;"></i>
-                            <span class="badge bg-danger rounded-pill position-absolute top-0 start-100 translate-middle" style="font-size: 0.6rem;">3</span>
+                            <span class="badge bg-danger rounded-pill position-absolute top-0 start-100 translate-middle" style="font-size: 0.6rem;">
+                                {{ auth()->user()->unreadNotifications->count() }}
+                            </span>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li><h6 class="dropdown-header">Notifikasi</h6></li>
-                            <li><a class="dropdown-item" href="#">Permohonan kerja baru</a></li>
-                            <li><a class="dropdown-item" href="#">Pengguna baru mendaftar</a></li>
+
+                            @foreach( auth()->user()->unreadNotifications as $notification )
+                            <li>
+                                <a class="dropdown-item" href="{{ route('admin.notifications.read', $notification->id) }}">
+                                    Terdapat permohonan baru untuk jawatan<br> 
+                                    {{ $notification->data['nama_jawatan'] }}<br>
+                                    daripada {{ $notification->data['nama_pemohon'] }}
+                                </a>
+                            </li>
+                            @endforeach
+
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item text-center" href="#">Lihat semua</a></li>
                         </ul>

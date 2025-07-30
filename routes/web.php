@@ -44,6 +44,8 @@ Route::middleware('auth', 'checkuser')->group( function() {
     Route::get('permohonan/{permohonan}/edit', [\App\Http\Controllers\PermohonanController::class, 'edit'])->name('permohonan.edit');
     Route::put('permohonan/{permohonan}', [\App\Http\Controllers\PermohonanController::class, 'update'])->name('permohonan.update');
     Route::delete('permohonan/{permohonan}', [\App\Http\Controllers\PermohonanController::class, 'destroy'])->name('permohonan.destroy');
+
+    
 });
 
 Route::view('contoh', 'template-contoh');
