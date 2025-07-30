@@ -212,6 +212,7 @@
 @section('content')
 <!-- Welcome Card -->
 <div class="welcome-card">
+    @include('alerts')
     <div class="row align-items-center">
         <div class="col-md-8">
             <h2 class="welcome-title">Selamat Datang, {{ Auth::user()->name ?? 'Pengguna' }}!</h2>

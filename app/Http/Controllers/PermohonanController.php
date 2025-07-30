@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Permohonan;
 use Illuminate\Http\Request;
+use App\Notifications\PermohonanBaru;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class PermohonanController extends Controller
@@ -61,6 +63,19 @@ class PermohonanController extends Controller
         $permohonan->user_id = auth()->id();
         $permohonan->jawatan_id = $id;
         $permohonan->save();
+
+        // Cari pihak pengurusan untuk menerima notifikasi email
+        $pengurusan = User::whereHas('roles', function($query) {
+            $query->whereIn('name', ['super admin', 'admin']);
+        })->get();
+
+        if ($pengurusan) {
+
+            foreach($pengurusan as $admin)
+            {
+                $admin->notify(new PermohonanBaru($permohonan));
+            }
+        }
 
         return redirect()->route('dashboard.pengguna')->with('message-success', 'Permohonan berjaya dihantar.');
     }

@@ -29,7 +29,7 @@ class LoginController extends Controller
             $request->session()->regenerate();
 
             // Jika ada role admin, redirect ke admin
-            if (Auth::user()->hasRole('admin')) {
+            if (Auth::user()->hasAnyRole(['admin', 'super admin'])) {
                 return redirect()->intended( route('admin.dashboard') );
             }
 
