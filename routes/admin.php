@@ -35,6 +35,7 @@ Route::get('permohonan/export', [PermohonanController::class, 'export'])->name('
 Route::get('permohonan/{id}', [PermohonanController::class, 'show'])->name('permohonan.show');
 
 Route::get('notifications', [NotificationController::class, 'index'])->name('notifications.index');
+Route::delete('notifications/{id?}', [NotificationController::class, 'destroy'])->name('notifications.destroy');
 Route::get('notifications/{id}', [NotificationController::class, 'read'])->name('notifications.read');
 
 

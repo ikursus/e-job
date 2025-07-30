@@ -42,14 +42,27 @@
                                 </td>
                                 <td>
                                     @if(!$notification->read_at)
-                                        <a href="{{ route('notifications.read', $notification->id) }}" class="btn btn-sm btn-primary">Baca</a>
+                                        <a href="{{ route('admin.notifications.read', $notification->id) }}" class="btn btn-sm btn-primary">Baca</a>
                                     @endif
+
+                                    <form action="{{ route('admin.notifications.destroy', $notification->id) }}" method="post" onsubmit="return confirm('Adakah anda yakin?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
             </div>
+        </div>
+        <div class="card-footer">
+            <form action="{{ route('admin.notifications.destroy') }}" method="post" onsubmit="return confirm('Adakah anda yakin?')">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-sm btn-danger">Hapus Semua</button>
+            </form>
         </div>
     </div>
 </div>
