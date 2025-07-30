@@ -22,11 +22,11 @@ class NotificationController extends Controller
     {
         if($id == null){
             auth()->user()->notifications()->delete();
-            return redirect()->back();
+            return redirect()->back()->with('message-success', 'Semua notifikasi telah dihapus.');
         }
 
         $notification = auth()->user()->notifications()->find($id);
         $notification->delete();
-        return redirect()->back();
+        return redirect()->back()->with('message-success', 'Notifikasi telah dihapus.');
     }
 }
