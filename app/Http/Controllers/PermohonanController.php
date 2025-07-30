@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Permohonan;
 use Illuminate\Http\Request;
+use App\Services\WhatsAppService;
 use App\Notifications\PermohonanBaru;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
@@ -74,6 +75,13 @@ class PermohonanController extends Controller
             foreach($pengurusan as $admin)
             {
                 $admin->notify(new PermohonanBaru($permohonan));
+
+                // Hantar WhatsApp Notification ke WhatsAppService
+                $whatsappService = new WhatsAppService();
+                $whatsappService->sendText(
+                    $admin->phone, 
+                    'Ada permohonan untuk jawatan ' . $permohonan->jawatan->title . ' daripada ' . $permohonan->user->name . '.'
+                );
             }
         }
 
