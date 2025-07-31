@@ -346,7 +346,7 @@
                 <span>Dashboard</span>
             </a>
 
-            <a href="{{ url('/profile') }}" class="nav-link {{ request()->is('pengguna/profile*') ? 'active' : '' }}">
+            <a href="{{ url('/step1') }}" class="nav-link {{ request()->is('pengguna/profile*') ? 'active' : '' }}">
                 <i class="bi bi-person"></i>
                 <span>Profil Saya</span>
             </a>

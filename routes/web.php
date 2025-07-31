@@ -9,6 +9,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\PermohonanController;
 use App\Http\Controllers\PasswordResetController;
+use App\Http\Controllers\ProfileController;
 
 // Halaman utama
 // Format route: Route::method('url', function);
@@ -48,6 +49,17 @@ Route::middleware('auth', 'checkuser')->group( function() {
 
     // Route untuk urusan data posts daripada jsonplaceholder
     Route::resource('posts', PostController::class);
+
+    Route::get('/step1', [ProfileController::class, 'step1'])->name('profile.step1');
+    Route::post('/step1', [ProfileController::class, 'step1store'])->name('profile.step1store');
+
+    Route::get('/step2', [ProfileController::class, 'step2'])->name('profile.step2');
+    Route::post('/step2', [ProfileController::class, 'step2store'])->name('profile.step2store');
+
+    Route::get('/step3', [ProfileController::class, 'step3'])->name('profile.step3');
+    Route::post('/step3', [ProfileController::class, 'step3store'])->name('profile.step3store');
+
+    Route::get('/step-final', [ProfileController::class, 'stepFinal'])->name('profile.step-final');
 
 });
 
