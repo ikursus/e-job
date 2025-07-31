@@ -360,6 +360,10 @@
                 <i class="bi bi-file-earmark-text"></i>
                 <span>Senarai Posts</span>
             </a>
+            <a href="{{ route('ocr.index') }}" class="nav-link {{ request()->is('ocr/*') ? 'active' : '' }}">
+                <i class="bi bi-file-earmark-text"></i>
+                <span>OCR Dokumen</span>
+            </a>
 
             <a href="{{ route('jobs.index') }}" class="nav-link {{ request()->is('pengguna/jobs*') ? 'active' : '' }}">
                 <i class="bi bi-briefcase"></i>
