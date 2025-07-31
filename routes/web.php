@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\IklanController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ContactController;
@@ -45,7 +46,9 @@ Route::middleware('auth', 'checkuser')->group( function() {
     Route::put('permohonan/{permohonan}', [\App\Http\Controllers\PermohonanController::class, 'update'])->name('permohonan.update');
     Route::delete('permohonan/{permohonan}', [\App\Http\Controllers\PermohonanController::class, 'destroy'])->name('permohonan.destroy');
 
-    
+    // Route untuk urusan data posts daripada jsonplaceholder
+    Route::resource('posts', PostController::class);
+
 });
 
 Route::view('contoh', 'template-contoh');
