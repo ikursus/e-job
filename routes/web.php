@@ -1,15 +1,16 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\OCRController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\IklanController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\PermohonanController;
 use App\Http\Controllers\PasswordResetController;
-use App\Http\Controllers\ProfileController;
 
 // Halaman utama
 // Format route: Route::method('url', function);
@@ -61,6 +62,48 @@ Route::middleware('auth', 'checkuser')->group( function() {
 
     Route::get('/step-final', [ProfileController::class, 'stepFinal'])->name('profile.step-final');
 
+
+    Route::get('/ocr', [OCRController::class, 'index'])->name('ocr.index');
+    Route::post('/ocr/process', [OCRController::class, 'processImage'])->name('ocr.process');
+    Route::post('/ocr/extract-form', [OCRController::class, 'extractFormData'])->name('ocr.extract-form');
+
+    // Add to routes/web.php untuk testing
+    Route::get('/test-vision-config', function() {
+        return [
+            'enabled' => config('google-cloud-vision.enabled'),
+            'project_id' => config('google-cloud-vision.project_id'),
+            'key_file' => config('google-cloud-vision.key_file'),
+            'key_file_exists' => file_exists(config('google-cloud-vision.key_file')),
+            'env_enabled' => env('GOOGLE_CLOUD_VISION_ENABLED'),
+            'env_project' => env('GOOGLE_CLOUD_PROJECT_ID'),
+            'env_keyfile' => env('GOOGLE_CLOUD_KEY_FILE'),
+        ];
+    });
+
 });
 
 Route::view('contoh', 'template-contoh');
+
+Route::get('/google', function () {
+    return config('google-cloud-vision.key_file');
+});
+
+Route::get('/test-ssl', function() {
+    $context = stream_context_create([
+        "http" => [
+            "method" => "GET",
+            "header" => "Content-Type: application/json\r\n",
+        ],
+        "ssl" => [
+            "verify_peer" => false,
+            "verify_peer_name" => false,
+        ],
+    ]);
+
+    try {
+        $result = file_get_contents("https://www.google.com", false, $context);
+        return ['ssl_test' => 'SUCCESS', 'can_connect' => true];
+    } catch (Exception $e) {
+        return ['ssl_test' => 'FAILED', 'error' => $e->getMessage()];
+    }
+});
